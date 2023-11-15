@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 class Data(BaseModel):
-   data :str = Field(None, title="hacking data", max_length=1000)
+   data :str = Field(None, title="hacking data", max_length=100000)
 
 @app.post("/data/")
 async def get_data(s1: Data):

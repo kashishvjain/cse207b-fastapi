@@ -1,14 +1,24 @@
-from typing import Optional
-
 from fastapi import FastAPI
+from typing import List
+from pydantic import BaseModel, Field
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = ["*"]
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+class Data(BaseModel):
+   data :str = Field(None, title="hacking data", max_length=1000)
+
+@app.post("/data/")
+async def get_data(s1: Data):
+   print(s1)
+   return s1
